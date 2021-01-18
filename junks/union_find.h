@@ -1,25 +1,21 @@
 #include <numeric>
 #include <vector>
 
-class union_find
-{
+class union_find {
 public:
-  union_find(std::size_t n) : parent_(n)
-  {
+  union_find(std::size_t n) : parent_(n) {
     std::iota(parent_.begin(), parent_.end(), 0);
   }
 
   // xが属する木の根を探索する
-  int find(int x)
-  {
+  int find(int x) {
     if (parent_[x] == x)
       return x;
     return parent_[x] = find(parent_[x]);
   }
 
   // 木の併合
-  void unite(int x, int y)
-  {
+  void unite(int x, int y) {
     int root_x = find(x);
     int root_y = find(y);
     if (root_x == root_y)
