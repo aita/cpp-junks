@@ -2,43 +2,45 @@
 #include <vector>
 
 using namespace std;
-using int_vec = vector<int>;
 
-void print(const int_vec& v) {
-    int_vec::const_iterator it;
-    for (it = v.begin(); it != v.end()-1; ++it) {
+void print_vector(const vector<int> &A)
+{
+    auto it = A.begin();
+    for (; it != A.end() - 1; ++it)
+    {
         cout << *it << " ";
     }
     cout << *it << endl;
 }
 
-void insertion_sort(int_vec& v) {
-    for (int i = 1; i < v.size(); ++i) {
-        int x = v[i];
-        int j;
-        for (j = i; j >= 0; --j) {
-            if (x >= v[j-1])
-                break;
-            v[j] = v[j-1];
+void insertion_sort(vector<int> &A)
+{
+    for (int i = 1; i < A.size(); ++i)
+    {
+        int key = A[i];
+        int j = i - 1;
+        for (; j >= 0 && A[j] > key; --j)
+        {
+            A[j + 1] = A[j];
         }
-        v[j] = x;
-        print(v);
+        A[j + 1] = key;
+        print_vector(A);
     }
 }
 
-int main() {
-    int n;
-    cin >> n;
+int main()
+{
+    int N;
+    cin >> N;
 
-    int_vec v;
-    for (int i = 0; i < n; ++i) {
-        int x;
-        cin >> x;
-        v.push_back(x);
+    vector<int> A(N);
+    for (int i = 0; i < N; ++i)
+    {
+        cin >> A[i];
     }
 
-    print(v);
-    insertion_sort(v);
+    print_vector(A);
+    insertion_sort(A);
 
     return 0;
 }
