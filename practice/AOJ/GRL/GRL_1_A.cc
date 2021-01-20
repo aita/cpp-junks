@@ -1,60 +1,85 @@
-#include <vector>
-#include <iostream>
-#include <limits>
-#include <queue>
+#include <bits/stdc++.h>
+#include <numeric>
 
 using namespace std;
 
-struct edge {
-    int v;
-    int weight;
+using int64 = long long;
 
-    edge(int v, int w) : v(v), weight(w) {}
+#define FOR(i, a, b) \
+    for (int64 i = static_cast<int64>(a); i < static_cast<int64>(b); ++i)
+#define REP(i, n) FOR(i, 0, n)
+
+using VertexIndex = int;
+
+constexpr int INF_DIST = numeric_limits<int>::max();
+
+struct Vertex
+{
+    int d = INF_DIST;
+    VertexIndex predecessor = -1;
 };
 
-bool operator < (const edge &a, const edge &b) {
-  return a.weight > b.weight;
-}
+struct Edge
+{
+    VertexIndex from, to;
+    int weight;
+};
 
-int main() {
-    auto const INF = numeric_limits<int>::max();
+using Graph = vector<vector<Edge>>;
 
-    int V, E, r;
-    cin >> V >> E >> r;
+void Dijkstra(vector<Vertex> &vertices, const Graph &graph, VertexIndex start)
+{
+    using Key = pair<int, VertexIndex>;
+    auto comp = [](Key &a, Key &b) -> bool { return a.first > b.first; };
+    priority_queue<Key, vector<Key>, decltype(comp)> Q(comp);
+    vector<bool> visited(vertices.size(), false);
 
-    vector<vector<edge>> G(V);
-    for (int i = 0; i < E; ++i) {
-        int s, t, d;
-        cin >> s >> t >> d;
-        G[s].emplace_back(t, d);
-    }
-
-    // Dijkstra's algorithm
-    vector<int> d(V, INF);
-    vector<bool> visited(V, false);
-    priority_queue<edge> Q;
-
-    Q.emplace(r, 0);
-    d[r] = 0;
-    while (!Q.empty()) {
-        auto e = Q.top(); Q.pop();
-        if (visited[e.v])
+    Q.emplace(0, start);
+    vertices[start].d = 0;
+    while (!Q.empty())
+    {
+        auto v = Q.top().second;
+        Q.pop();
+        if (visited[v])
             continue;
-        visited[e.v] = true;
-
-        for (auto& u : G[e.v]) {
-            int w = u.weight + d[e.v];
-            if (!visited[u.v] && w < d[u.v]) {
-                d[u.v] = w;
-                Q.emplace(u.v, w);
+        visited[v] = true;
+        for (auto &e : graph[v])
+        {
+            int w = e.weight + vertices[v].d;
+            if (!visited[e.to] && w < vertices[e.to].d)
+            {
+                vertices[e.to].d = w;
+                vertices[e.to].predecessor = v;
+                Q.emplace(w, e.to);
             }
         }
     }
+}
 
-    for (auto x : d) {
-        if (x != INF) {
-            cout << x << endl;
-        } else {
+int main()
+{
+    int V, E, r;
+    cin >> V >> E >> r;
+
+    Graph G(V);
+    for (int i = 0; i < E; ++i)
+    {
+        int s, t, d;
+        cin >> s >> t >> d;
+        G[s].push_back({s, t, d});
+    }
+
+    vector<Vertex> vertices(V);
+    Dijkstra(vertices, G, r);
+
+    for (auto &x : vertices)
+    {
+        if (x.d != INF_DIST)
+        {
+            cout << x.d << endl;
+        }
+        else
+        {
             cout << "INF" << endl;
         }
     }
