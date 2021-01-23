@@ -25,20 +25,23 @@ struct Edge
     int weight;
 };
 
+bool operator<(const Edge &lhs, const Edge &rhs)
+{
+    return lhs.weight > rhs.weight;
+}
+
 using Graph = vector<vector<Edge>>;
 
 void Dijkstra(vector<Vertex> &vertices, const Graph &graph, VertexIndex start)
 {
-    using Key = pair<int, VertexIndex>;
-    auto comp = [](Key &a, Key &b) -> bool { return a.first > b.first; };
-    priority_queue<Key, vector<Key>, decltype(comp)> Q(comp);
+    priority_queue<Edge> Q;
     vector<bool> visited(vertices.size(), false);
 
-    Q.emplace(0, start);
+    Q.push({-1, start, 0});
     vertices[start].d = 0;
     while (!Q.empty())
     {
-        auto v = Q.top().second;
+        auto v = Q.top().to;
         Q.pop();
         if (visited[v])
             continue;
@@ -50,7 +53,7 @@ void Dijkstra(vector<Vertex> &vertices, const Graph &graph, VertexIndex start)
             {
                 vertices[e.to].d = w;
                 vertices[e.to].predecessor = v;
-                Q.emplace(w, e.to);
+                Q.push(e);
             }
         }
     }
@@ -71,7 +74,6 @@ int main()
 
     vector<Vertex> vertices(V);
     Dijkstra(vertices, G, r);
-
     for (auto &x : vertices)
     {
         if (x.d != INF_DIST)
