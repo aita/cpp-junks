@@ -15,22 +15,19 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N, Y;
-  cin >> N >> Y;
+  ll N;
+  cin >> N;
+  vector<ll> H(N);
+  REP(i, N) { cin >> H[i]; }
 
-  ll x = -1, y = -1, z = -1;
-  REP(i, N + 1) {
-    REP(j, N + 1 - i) {
-      ll k = N - i - j;
-      if (i * 10000 + j * 5000 + k * 1000 == Y) {
-        x = i;
-        y = j;
-        z = k;
-        break;
-      }
-    }
+  vector<ll> DP(N+1);
+  DP[0] = 0;
+  DP[1] = abs(H[1] - H[0]);
+  FOR(i, 2, N)
+  {
+    DP[i] = min(abs(H[i] - H[i-1]) + DP[i-1], abs(H[i] - H[i-2]) + DP[i-2]);
   }
-  printf("%d %d %d\n", x, y, z);
+  cout << DP[N-1] << nl;
 
   return 0;
 }

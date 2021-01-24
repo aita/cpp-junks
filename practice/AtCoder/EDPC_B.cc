@@ -4,6 +4,7 @@
 using namespace std;
 
 using ll = long long;
+constexpr auto INF = numeric_limits<ll>::max();
 
 #define FOR(i, a, b)                                                           \
   for (ll i = static_cast<ll>(a); i < static_cast<ll>(b); ++i)
@@ -15,22 +16,21 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N, Y;
-  cin >> N >> Y;
+  ll N, K;
+  cin >> N >> K;
+  vector<ll> H(N);
+  REP(i, N) { cin >> H[i]; }
 
-  ll x = -1, y = -1, z = -1;
-  REP(i, N + 1) {
-    REP(j, N + 1 - i) {
-      ll k = N - i - j;
-      if (i * 10000 + j * 5000 + k * 1000 == Y) {
-        x = i;
-        y = j;
-        z = k;
-        break;
-      }
+  vector<ll> DP(N, INF);
+  DP[0] = 0;
+  FOR(i, 1, N)
+  {
+    FOR(j, 1, K+1) {
+      if (i-j < 0) break;
+      DP[i] = min(DP[i], DP[i-j] + abs(H[i] - H[i-j]));
     }
   }
-  printf("%d %d %d\n", x, y, z);
+  cout << DP[N-1] << nl;
 
   return 0;
 }
