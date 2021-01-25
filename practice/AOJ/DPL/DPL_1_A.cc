@@ -16,27 +16,20 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N, W;
-  cin >> N >> W;
-  vector<ll> v(N+1), w(N+1);
-  REP(i, N) {
-    cin >> v[i+1] >> w[i+1];
+  ll n, m;
+  cin >> n >> m;
+  vector<ll> C(m);
+  REP(i, m) {
+    cin >> C[i];
   }
-
-  vector<vector<ll>> C(N+1, vector<ll>(W+1, 0));
-  RANGE(i, 1, N+1)
-  {
-    RANGE(j, 1, W+1)
-    {
-      if (w[i] <= j)
-      {
-        C[i][j] = max(C[i-1][j-w[i]] + v[i], C[i-1][j]);
-      } else {
-        C[i][j] = C[i-1][j];
-      }
+  vector<ll> T(n+1, INF);
+  T[0] = 0;
+  REP(i, m+1) {
+    RANGE(j, C[i], n+1) {
+      T[j] = min(T[j], T[j-C[i]]+1);
     }
   }
-  cout << C[N][W] << nl;
+  cout << T.back() << nl;
 
   return 0;
 }
