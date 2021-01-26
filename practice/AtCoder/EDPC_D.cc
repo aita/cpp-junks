@@ -18,23 +18,21 @@ int main() {
 
   ll N, W;
   cin >> N >> W;
-  vector<ll> v(N+1), w(N+1);
+  vector<ll> w(N+1), v(N+1);
   REP(i, N) {
-    cin >> v[i+1] >> w[i+1];
+    cin >> w[i+1] >> v[i+1];
   }
 
-  vector<vector<ll>> C(N+1, vector<ll>(W+1, 0));
+  vector<vector<ll>> dp(N+1, vector<ll>(W+1, 0));
   RANGE(i, 1, N+1) {
     RANGE(j, 1, W+1) {
-      if (w[i] <= j)
-      {
-        C[i][j] = max(C[i-1][j-w[i]] + v[i], C[i-1][j]);
-      } else {
-        C[i][j] = C[i-1][j];
+      dp[i][j] = dp[i-1][j];
+      if (w[i] <= j) {
+        dp[i][j] = max(dp[i][j], dp[i-1][j-w[i]] + v[i]);
       }
     }
   }
-  cout << C[N][W] << nl;
+  cout << dp[N][W] << nl;
 
   return 0;
 }
