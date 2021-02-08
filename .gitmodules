@@ -1,0 +1,3 @@
+[submodule "junks/diligent/DiligentCore"]
+	path = junks/diligent/DiligentCore
+	url = /home/ryo/Dropbox/cpp-junks/junks/diligent/DiligentCore

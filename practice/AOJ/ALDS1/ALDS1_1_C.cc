@@ -1,47 +1,41 @@
-#include <iostream>
-#include <bitset>
-#include <cmath>
+#include <bits/stdc++.h>
+#include <numeric>
 
 using namespace std;
 
-const size_t N = 100000000 + 1;
-bitset<N> sieve;
+using ll = long long;
+constexpr auto INF = numeric_limits<ll>::max();
 
-void eratosthenes() {
-    for (int i = 2; i < N; ++i) {
-        sieve[i] = true;
-    }
+#define FOR(i, a, b)                                                           \
+  for (ll i = static_cast<ll>(a); i < static_cast<ll>(b); ++i)
+#define REP(i, n) FOR(i, 0, n)
 
-    for (int i = 2; i < sqrt(N); ++i) {
-        if (sieve[i]) {
-            for (int j = 2; i * j < N; ++j) {
-                sieve[i*j] = false;
-            }
-        }
-    }
-}
-
-bool is_prime(int n) {
-    return sieve[n];
-}
+constexpr auto nl = "\n";
 
 int main() {
-    eratosthenes();
+  ios::sync_with_stdio(false);
+  cin.tie(0);
 
-    int n;
-    cin >> n;
+  ll N;
+  cin >> N;
+  vector<ll> A(N);
+  REP(i, N) { cin >> A[i]; }
 
-    int count;
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-
-        if (is_prime(x)) {
-            // cerr << "debug: " <<  x << endl;
-            count++;
-        }
+  const ll MAX = 100000000;
+  bitset<MAX+1> sieve;
+  sieve.flip();
+  sieve[0] = false;
+  sieve[1] = false;
+  FOR(i, 2, sqrt(MAX)+1) {
+    for (ll j = 2; i*j <= MAX; ++j) {
+      sieve[i*j] = false;
     }
-    cout << count << endl;
+  }
+  ll ans = 0;
+  REP(i, N) {
+    if (sieve[A[i]]) ++ans;
+  }
+  cout << ans << nl;
 
-    return 0;
+  return 0;
 }

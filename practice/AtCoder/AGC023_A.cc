@@ -17,20 +17,23 @@ int main() {
   cin.tie(0);
 
   ll N;
-  string S;
-  cin >> N >> S;
+  cin >> N;
+  vector<ll> A(N);
+  REP(i, N) {
+    cin >> A[i];
+  }
+  vector<ll> S(N+1);
+  map<ll, ll> M;
+  REP(i, N) {
+    S[i+1] = S[i] + A[i];
+  }
+  REP(i, N+1) {
+    ++M[S[i]];
+  }
 
   ll ans = 0;
-  REP(i, 1000) {
-    ll a[3] = {i / 100, (i / 10) % 10, i % 10};
-    ll k = 0;
-    REP(j, N) {
-      ll x = S[j] - '0';
-      if (x == a[k]) {
-          ++k;
-      }
-    }
-    if (k == 3) ++ans;
+  for (auto [k, v]: M) {
+    ans += v * (v - 1) / 2;
   }
   cout << ans << nl;
 

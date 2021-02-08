@@ -16,23 +16,23 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N;
-  string S;
-  cin >> N >> S;
-
-  ll ans = 0;
-  REP(i, 1000) {
-    ll a[3] = {i / 100, (i / 10) % 10, i % 10};
-    ll k = 0;
-    REP(j, N) {
-      ll x = S[j] - '0';
-      if (x == a[k]) {
-          ++k;
-      }
-    }
-    if (k == 3) ++ans;
+  ll N, K;
+  cin >> N >> K;
+  vector<ll> A(N);
+  REP(i, N) {
+    cin >> A[i];
   }
-  cout << ans << nl;
+
+  vector<ll> s(N+1, 0);
+  REP(i, N) {
+    s[i+1] = s[i] + A[i];
+  }
+
+  ll ans = -INF;
+  REP(i, N-K+1) {
+    ans = max(ans, s[K+i] - s[i]);
+  }
+  cerr << ans << nl;
 
   return 0;
 }

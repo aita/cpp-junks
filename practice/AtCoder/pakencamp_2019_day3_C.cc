@@ -1,45 +1,39 @@
-#include <iostream>
-#include <algorithm>
-#include <functional>
-#include <vector>
-#include <map>
+#include <bits/stdc++.h>
+#include <numeric>
 
 using namespace std;
 
-int N, M;
-vector<vector<long long>> A;
+using ll = long long;
+constexpr auto INF = numeric_limits<ll>::max();
 
-int main()
-{
-    cin.tie(0);
-    ios::sync_with_stdio(false);
+#define RANGE(i, a, b)                                                         \
+  for (ll i = static_cast<ll>(a); i < static_cast<ll>(b); ++i)
+#define REP(i, n) RANGE(i, 0, n)
 
-    cin >> N >> M;
-    for (int i = 0; i < N; ++i)
-    {
-        vector<long long> a(M);
-        for (int j = 0; j < M; ++j)
-        {
-            cin >> a[j];
-        }
-        A.push_back(a);
+constexpr auto nl = "\n";
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+
+  ll N, M;
+  cin >> N >> M;
+  vector<vector<ll>> A(N, vector<ll>(M, 0));
+  REP(i, N) {
+    REP(j, M) { cin >> A[i][j]; }
+  }
+
+  ll ans = 0;
+  REP(i, M - 1) {
+    RANGE(j, i + 1, M) {
+      ll total = 0;
+      REP(k, N) {
+        total += max(A[k][i], A[k][j]);
+      }
+      ans = max(ans, total);
     }
+  }
+  cout << ans << nl;
 
-    long long ans = 0;
-    for (int i = 0; i < M-1; ++i)
-    {
-        for (int j = i+1; j < M; ++j)
-        {
-            long long total = 0;
-            for (int k = 0; k < N; ++k)
-            {
-                total += max(A[k][i], A[k][j]);
-            }
-            ans = max(ans, total);
-        }
-    }
-
-    cout << ans << endl;
-
-    return 0;
+  return 0;
 }

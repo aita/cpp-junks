@@ -16,21 +16,20 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N;
-  string S;
-  cin >> N >> S;
+  ll N, S, D;
+  cin >> N >> S >> D;
+  vector<ll> X(N), Y(N);
+  REP(i, N) {
+    cin >> X[i] >> Y[i];
+  }
 
-  ll ans = 0;
-  REP(i, 1000) {
-    ll a[3] = {i / 100, (i / 10) % 10, i % 10};
-    ll k = 0;
-    REP(j, N) {
-      ll x = S[j] - '0';
-      if (x == a[k]) {
-          ++k;
-      }
-    }
-    if (k == 3) ++ans;
+  string ans = "No";
+  REP(i, N) {
+    if (X[i] >= S)
+      continue;
+    if (Y[i] <= D)
+      continue;
+    ans = "Yes";
   }
   cout << ans << nl;
 

@@ -17,21 +17,22 @@ int main() {
   cin.tie(0);
 
   ll N;
-  string S;
-  cin >> N >> S;
+  cin >> N;
+
+  ll M = N;
+  while (M % 2 == 0) M /= 2;
 
   ll ans = 0;
-  REP(i, 1000) {
-    ll a[3] = {i / 100, (i / 10) % 10, i % 10};
-    ll k = 0;
-    REP(j, N) {
-      ll x = S[j] - '0';
-      if (x == a[k]) {
-          ++k;
+  for (ll i = 1; i * i <= M; ++i) {
+    if (M % i == 0) {
+      ++ans;
+      if (i * i != M) {
+        ++ans;
       }
     }
-    if (k == 3) ++ans;
   }
+  ans *= 2;
+
   cout << ans << nl;
 
   return 0;

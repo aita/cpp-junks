@@ -17,22 +17,24 @@ int main() {
   cin.tie(0);
 
   ll N;
-  string S;
-  cin >> N >> S;
-
-  ll ans = 0;
-  REP(i, 1000) {
-    ll a[3] = {i / 100, (i / 10) % 10, i % 10};
-    ll k = 0;
-    REP(j, N) {
-      ll x = S[j] - '0';
-      if (x == a[k]) {
-          ++k;
-      }
-    }
-    if (k == 3) ++ans;
+  cin >> N;
+  vector<ll> A(N);
+  REP(i, N) {
+    cin >> A[i];
   }
-  cout << ans << nl;
+  vector<ll> L(N, INF);
+  L[0] = A[0];
+  ll k = 1;
+  RANGE(i, 1, N) {
+    if (L[k-1] < A[i]) {
+      L[k] = A[i];
+      ++k;
+    } else {
+      auto it = lower_bound(L.begin(), L.begin()+k, A[i]);
+      *it = A[i];
+    }
+  }
+  cout << k << nl;
 
   return 0;
 }

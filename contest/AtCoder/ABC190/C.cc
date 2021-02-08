@@ -16,28 +16,38 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N;
-  cin >> N;
-  vector<ll> A(N), B(N);
-  REP(i, N) {
+  ll N, M;
+  cin >> N >> M;
+  vector<ll> A(M), B(M);
+  REP(i, M) {
     cin >> A[i] >> B[i];
+    --A[i];
+    --B[i];
+  }
+  ll K;
+  cin >> K;
+  vector<ll> C(K), D(K);
+  REP(i, K) {
+    cin >> C[i] >> D[i];
+    --C[i];
+    --D[i];
   }
 
-  vector<ll> P;
-  copy(A.begin(), A.end(), back_inserter(P));
-  copy(B.begin(), B.end(), back_inserter(P));
-
-  ll ans = INF;
-  REP(i, P.size()) {
-    REP(j, P.size()) {
-      if (i == j)
-        continue;
-      ll total = 0;
-      REP(k, N) {
-        total += abs(P[i] - A[k]) + abs(A[k] - B[k]) + abs(B[k] - P[j]);
+  ll ans = 0;
+  REP(i, 1<<K) {
+    vector<bool> X(M, false);
+    REP(j, K) {
+      if (i & 1 << j) {
+        X[C[j]] = true;
+      } else {
+        X[D[j]] = true;
       }
-      ans = min(ans, total);
     }
+    ll total = 0;
+    REP(i, M) {
+      if (X[A[i]] && X[B[i]]) ++total;
+    }
+    ans = max(ans, total);
   }
   cout << ans << nl;
 

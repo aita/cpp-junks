@@ -25,8 +25,11 @@ int main() {
   RANGE(i, 1, N + 1) {
     RANGE(j, 1, W + 1) {
       if (w[i] <= j) {
-        C[i][j] = max(max(C[i - 1][j - w[i]] + v[i], C[i][j - w[i]] + v[i]),
-                      C[i - 1][j]);
+        C[i][j] = max({
+          C[i - 1][j - w[i]] + v[i],
+          C[i][j - w[i]] + v[i],
+          C[i - 1][j],
+        });
       } else {
         C[i][j] = C[i - 1][j];
       }
