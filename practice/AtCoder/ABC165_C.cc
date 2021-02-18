@@ -3,61 +3,55 @@
 
 using namespace std;
 
-using int64 = long long;
+using ll = long long;
+constexpr auto INF = numeric_limits<ll>::max();
 
-#define FOR(i, a, b) \
-    for (int64 i = static_cast<int64>(a); i < static_cast<int64>(b); ++i)
-#define REP(i, n) FOR(i, 0, n)
+#define RANGE(i, a, b)                                                           \
+  for (ll i = static_cast<ll>(a); i < static_cast<ll>(b); ++i)
+#define REP(i, n) RANGE(i, 0, n)
 
-#define DEBUG(x) cerr << __LINE__ << ": " << #x << ": " << x << '\n'
+constexpr auto nl = "\n";
 
-int N, M, Q;
-vector<int> A(10, 0);
-vector<tuple<int, int, int, int>> ABCD(50);
+ll N, M, Q;
+vector<ll> a, b, c, d;
+vector<ll> A;
 
-int ans = 0;
-
-void dfs(int k, int a)
-{
-    if (k == N)
-    {
-        int score = 0;
-        REP(i, Q)
-        {
-            auto abcd = ABCD[i];
-            if (A[get<1>(abcd)] - A[get<0>(abcd)] == get<2>(abcd))
-            {
-                score += get<3>(abcd);
-            }
-        }
-        ans = max(ans, score);
-        return;
+ll solve(ll i, ll k) {
+  if (i == N) {
+    ll score = 0;
+    REP(j, Q) {
+      if (A[b[j]] - A[a[j]] == c[j])
+        score += d[j];
     }
-    if (a > M)
-        return;
+    return score;
+  }
+  if (k > M)
+    return 0;
 
-    A[k] = a;
-    dfs(k + 1, a);
-    dfs(k + 1, a + 1);
-    dfs(k, a + 1);
-    return;
+  A[i] = k;
+  return max({
+    solve(i+1, k),
+    solve(i+1, k+1),
+    solve(i, k+1),
+  });
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
 
-    cin >> N >> M >> Q;
-    REP(i, Q)
-    {
-        int a, b, c, d;
-        cin >> a >> b >> c >> d;
-        ABCD[i] = {a - 1, b - 1, c, d};
-    }
+  cin >> N >> M >> Q;
+  A.reserve(N);
+  a.reserve(Q);
+  b.reserve(Q);
+  c.reserve(Q);
+  d.reserve(Q);
+  REP(i, Q) {
+    cin >> a[i] >> b[i] >> c[i] >> d[i];
+    --a[i]; --b[i];
+  }
 
-    dfs(0, 1);
-    cout << ans << endl;
+  cout << solve(0, 1) << nl;
 
-    return 0;
+  return 0;
 }
