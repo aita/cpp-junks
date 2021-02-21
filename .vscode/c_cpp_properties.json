@@ -2,7 +2,8 @@
   "configurations": [
     {
       "name": "linux c++17",
-      "cppStandard": "c++17"
+      "cppStandard": "c++17",
+      "includePath": ["./third_party/ac-library"]
     }
   ],
   "version": 4
