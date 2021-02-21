@@ -1,8 +1,7 @@
 {
     "editor.tabSize": 2,
-    "code-runner.terminalRoot": "/tmp",
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ -std=c++17 -I$workspaceRoot/third_party/ac-library $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++ -std=c++17 -I$workspaceRoot/third_party/ac-library $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt; rm -f $dir$fileNameWithoutExt",
     },
     "files.associations": {
         "ostream": "cpp",
