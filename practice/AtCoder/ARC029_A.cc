@@ -17,16 +17,23 @@ int main() {
   cin.tie(0);
 
   ll N;
-  string S;
-  cin >> N >> S;
+  cin >> N;
+  vector<ll> T(N);
+  REP(i, N) {
+    cin >> T[i];
+  }
 
-  ll ans = 0;
-  string::size_type pos = 0;
-  while (true) {
-    pos = S.find("ABC", pos);
-    if (pos == string::npos) break;
-    ++ans;
-    pos += 3;
+  ll ans = INF;
+  REP(i, 1<<N) {
+    ll t1 = 0, t2 = 0;
+    REP(j, N) {
+      if (i & 1<<j) {
+        t1 += T[j];
+      } else {
+        t2 += T[j];
+      }
+    }
+    ans = min(ans, max(t1, t2));
   }
   cout << ans << nl;
 

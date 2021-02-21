@@ -1,38 +1,37 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <map>
-#include <cmath>
-#include <cstdint>
-#include <tuple>
+#include <bits/stdc++.h>
+#include <numeric>
 
 using namespace std;
 
-int main()
-{
-    cin.tie(0);
-    ios::sync_with_stdio(false);
+using ll = long long;
+constexpr auto INF = numeric_limits<ll>::max();
 
-    int N;
-    cin >> N;
+#define RANGE(i, a, b)                                                           \
+  for (ll i = static_cast<ll>(a); i < static_cast<ll>(b); ++i)
+#define REP(i, n) RANGE(i, 0, n)
 
-    int ans = 0;
+constexpr auto nl = "\n";
 
-    for (int i = 1; i <= N; i+=2)
-    {
-        int c = 1;
-        for (int k = 1; k < i/2; ++k)
-        {
-            if (i % k == 0) {
-                ++c;
-            }
-        }
-        if (c == 8) {
-            ++ans;
-        }
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+
+  ll N;
+  cin >> N;
+
+  ll ans = 0;
+  for (ll i = 1; i <= N; i += 2) {
+    ll count = 0;
+    ll j = 1;
+    for (; j * j <= i; ++j) {
+      if (i % j == 0) {
+        count += 2;
+      }
     }
+    if (j * j == i) --count;
+    if (count == 8) ++ans;
+  }
+  cout << ans << nl;
 
-    cout << ans << endl;
-
-    return 0;
+  return 0;
 }

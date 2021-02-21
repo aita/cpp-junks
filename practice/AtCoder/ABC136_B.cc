@@ -1,34 +1,30 @@
-#include <iostream>
+#include <bits/stdc++.h>
+#include <numeric>
 
 using namespace std;
 
-int count_digits(int n)
-{
-    int count = 0;
-    while (n != 0)
-    {
-        ++count;
-        n /= 10;
-    }
-    return count;
-}
+using ll = long long;
+constexpr auto INF = numeric_limits<ll>::max();
 
+#define RANGE(i, a, b)                                                           \
+  for (ll i = static_cast<ll>(a); i < static_cast<ll>(b); ++i)
+#define REP(i, n) RANGE(i, 0, n)
 
-int main()
-{
-    int N;
-    cin >> N;
+constexpr auto nl = "\n";
 
-    int ans = 0;
-    for (int i = 1; i <= N; ++i)
-    {
-        if (count_digits(i) % 2 == 1)
-        {
-            ++ans;
-        }
-    }
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
 
-    cout << ans << endl;
+  ll N;
+  cin >> N;
 
-    return 0;
+  ll ans = 0;
+  RANGE(i, 1, N+1) {
+    auto s = to_string(i);
+    if (s.size() % 2 != 0) ++ans;
+  }
+  cout << ans << nl;
+
+  return 0;
 }

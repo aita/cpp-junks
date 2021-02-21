@@ -16,18 +16,16 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N;
-  string S;
-  cin >> N >> S;
+  ll A, B, K;
+  cin >> A >> B >> K;
 
-  ll ans = 0;
-  string::size_type pos = 0;
-  while (true) {
-    pos = S.find("ABC", pos);
-    if (pos == string::npos) break;
-    ++ans;
-    pos += 3;
+  vector<ll> X;
+  RANGE(i, 1, min(A, B) + 1) {
+    if (A % i == 0 && B % i == 0) {
+      X.push_back(i);
+    }
   }
+  ll ans = X[X.size() - K];
   cout << ans << nl;
 
   return 0;

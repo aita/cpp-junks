@@ -16,19 +16,30 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N;
   string S;
-  cin >> N >> S;
+  cin >> S;
 
-  ll ans = 0;
-  string::size_type pos = 0;
-  while (true) {
-    pos = S.find("ABC", pos);
-    if (pos == string::npos) break;
-    ++ans;
-    pos += 3;
+  REP(i, 1<<3) {
+    stringstream ss;
+    ll k = 0;
+    ll a = S[k++] - '0';
+    ss << a;
+    REP(j, 3) {
+      ll d = S[k++] - '0';
+      if (i & 1<<j) {
+        ss << "+" << d;
+        a += d;
+      } else {
+        ss << "-" << d;
+        a -= d;
+      }
+    }
+    if (a == 7) {
+      ss << "=7";
+      cout << ss.str() << nl;
+      break;
+    }
   }
-  cout << ans << nl;
 
   return 0;
 }

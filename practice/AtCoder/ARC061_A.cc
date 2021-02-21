@@ -12,25 +12,6 @@ constexpr auto INF = numeric_limits<ll>::max();
 
 constexpr auto nl = "\n";
 
-ll solve(string s) {
-  ll total = 0;
-  ll n = s.size()-1;
-  REP(i, 1<<n) {
-    ll sum = s[0] - '0';
-    REP(j, n) {
-      ll next = s[j+1] - '0';
-      if (i & 1 << j) {
-        total += sum;
-        sum = next;
-      } else {
-        sum = sum * 10 + next;
-      }
-    }
-    total += sum;
-  }
-  return total;
-}
-
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
@@ -38,7 +19,25 @@ int main() {
   string S;
   cin >> S;
 
-  cout << solve(S) << nl;
+  ll ans = 0;
+  ll n = S.size() - 1;
+  REP(i, 1<<n) {
+    ll k = 0;
+    ll sum = 0;
+    ll a = S[k++] - '0';
+    REP(j, n) {
+      ll d = S[k++] - '0';
+      if (i & 1<<j) {
+        a = a * 10 + d;
+      } else {
+        sum += a;
+        a = d;
+      }
+    }
+    sum += a;
+    ans += sum;
+  }
+  cout << ans << nl;
 
   return 0;
 }

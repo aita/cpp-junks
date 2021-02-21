@@ -16,17 +16,27 @@ int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
 
-  ll N;
   string S;
-  cin >> N >> S;
+  cin >> S;
 
   ll ans = 0;
-  string::size_type pos = 0;
-  while (true) {
-    pos = S.find("ABC", pos);
-    if (pos == string::npos) break;
-    ++ans;
-    pos += 3;
+  REP(i, S.size() - 1) {
+    ll len = 0;
+    RANGE(j, i, S.size()) {
+      bool ok = true;
+      switch (S[j]) {
+        case 'A':
+        case 'C':
+        case 'G':
+        case 'T':
+          break;
+        default:
+          ok = false;
+      }
+      if (!ok) break;
+      ++len;
+    }
+    ans = max(ans, len);
   }
   cout << ans << nl;
 
